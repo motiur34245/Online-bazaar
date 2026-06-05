@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Online Bazaar BD | ৫৫+ প্রিমিয়াম কোর্স মাত্র ৯৯ টাকা</title>
+  <!-- Google Fonts & Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at 10% 20%, rgba(5, 15, 25, 1) 0%, rgba(0, 0, 0, 0.95) 100%);
+      color: #f0f3fa;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 10px; }
+
+    /* loading screen */
+    #loader {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: #0a0f1f;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999;
+      backdrop-filter: blur(12px);
+      transition: opacity 0.5s, visibility 0.5s;
+    }
+    .loader-spinner {
+      width: 60px; height: 60px;
+      border: 5px solid rgba(59,130,246,0.2);
+      border-top: 5px solid #3b82f6;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    /* glassmorphism */
+    .glass-card {
+      background: rgba(15, 25, 45, 0.6);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 28px;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.4);
+      transition: all 0.3s ease;
+    }
+    .glass-card:hover {
+      border-color: #3b82f6;
+      transform: translateY(-6px);
+      box-shadow: 0 28px 40px -16px rgba(59,130,246,0.2);
+    }
+    .btn-primary {
+      background: linear-gradient(95deg, #3b82f6, #8b5cf6);
+      border: none;
+      padding: 14px 32px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1rem;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 8px 20px rgba(59,130,246,0.3);
+    }
+    .btn-primary:hover {
+      transform: scale(1.02);
+      box-shadow: 0 12px 28px rgba(59,130,246,0.5);
+    }
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    /* sticky nav */
+    .sticky-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(5, 15, 25, 0.75);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(59,130,246,0.2);
+      padding: 16px 0;
+    }
+    .nav-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .logo h2 { font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg,#fff,#60a5fa); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .tagline { font-size: 0.85rem; color: #94a3b8; }
+    /* course grid */
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 22px;
+      margin: 40px 0;
+    }
+    .course-card {
+      background: rgba(20, 30, 55, 0.6);
+      backdrop-filter: blur(8px);
+      border-radius: 24px;
+      padding: 20px 12px;
+      text-align: center;
+      transition: 0.2s;
+      border: 1px solid rgba(96,165,250,0.2);
+    }
+    .course-card i { font-size: 2.4rem; color: #60a5fa; margin-bottom: 12px; }
+    .course-card span { font-weight: 500; font-size: 0.9rem; }
+    /* features */
+    .features-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin: 40px 0;
+    }
+    .feature-card {
+      flex: 1 1 180px;
+      background: rgba(0,0,0,0.3);
+      backdrop-filter: blur(8px);
+      border-radius: 28px;
+      padding: 20px;
+      text-align: center;
+    }
+    /* modal styles */
+    .modal-overlay {
+      position: fixed;
+      top:0;left:0;width:100%;height:100%;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      visibility: hidden;
+      opacity: 0;
+      transition: 0.2s;
+    }
+    .modal-overlay.active {
+      visibility: visible;
+      opacity: 1;
+    }
+    .modal-content {
+      background: rgba(15, 25, 45, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 40px;
+      max-width: 500px;
+      width: 90%;
+      padding: 32px;
+      border: 1px solid #3b82f6;
+    }
+    input, select {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(59,130,246,0.4);
+      border-radius: 28px;
+      color: white;
+      margin: 12px 0;
+      outline: none;
+    }
+    input:focus { border-color: #3b82f6; }
+    .payment-number {
+      background: #1e293b;
+      padding: 12px;
+      border-radius: 20px;
+      text-align: center;
+      margin: 16px 0;
+      font-weight: bold;
+    }
+    footer {
+      background: rgba(0,0,0,0.5);
+      margin-top: 70px;
+      padding: 40px 0;
+      text-align: center;
+    }
+    @media (max-width: 640px) {
+      .course-grid { grid-template-columns: repeat(2,1fr); }
+      .btn-primary { padding: 10px 22px; }
+    }
+    .toast-custom {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #1e293b;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 40px;
+      z-index: 1200;
+      font-weight: 500;
+    }
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+    .fade-up.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* WhatsApp floating button */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background-color: #25D366;
+      color: white;
+      border-radius: 50px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: bold;
+      z-index: 99;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      text-decoration: none;
+      transition: 0.2s;
+    }
+    .whatsapp-float i {
+      font-size: 1.8rem;
+    }
+    .whatsapp-float:hover {
+      transform: scale(1.05);
+      background-color: #128C7E;
+    }
+    @media (max-width: 640px) {
+      .whatsapp-float { padding: 10px 16px; font-size: 0.9rem; }
+      .whatsapp-float i { font-size: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="loader"><div class="loader-spinner"></div></div>
+
+<nav class="sticky-nav">
+  <div class="container nav-content">
+    <div class="logo">
+      <h2>Online Bazaar BD</h2>
+      <div class="tagline">"৫৫,০০০+ টাকার ৫৫+ প্রিমিয়াম কোর্স মাত্র ৯৯ টাকায়"</div>
+    </div>
+    <div><i class="fas fa-rocket" style="color:#60a5fa"></i> সীমিত সময়ের অফার</div>
+  </div>
+</nav>
+
+<main>
+  <div class="container">
+    <!-- Hero Section -->
+    <div class="glass-card" style="padding: 48px 32px; text-align: center; margin: 48px 0;">
+      <i class="fas fa-fire" style="font-size: 48px; color: #f97316;"></i>
+      <h1 style="font-size: 3rem; font-weight: 800; margin: 16px 0;">🔥 মাত্র ৯৯ টাকা 🔥</h1>
+      <p style="font-size: 1.6rem; font-weight: 600;">৫৫,০০০+ টাকার ৫৫+ প্রিমিয়াম কোর্স</p>
+      <button id="buyNowBtn" class="btn-primary" style="margin-top: 32px;"><i class="fas fa-shopping-cart"></i> এখনি কিনুন - ৯৯ টাকা</button>
+    </div>
+
+    <!-- Course Section -->
+    <h2 style="font-size: 2rem; margin: 30px 0 10px;"><i class="fas fa-graduation-cap"></i> আমাদের কোর্স সমূহ</h2>
+    <div class="course-grid" id="courseGrid"></div>
+
+    <!-- Features -->
+    <h2 style="font-size: 2rem; margin: 30px 0 10px;"><i class="fas fa-star"></i> বিশেষ সুবিধা</h2>
+    <div class="features-grid">
+      <div class="feature-card"><i class="fas fa-infinity"></i><h4>Lifetime Access</h4></div>
+      <div class="feature-card"><i class="fas fa-video"></i><h4>Recorded Classes</h4></div>
+      <div class="feature-card"><i class="fas fa-mobile-alt"></i><h4>Mobile Friendly</h4></div>
+      <div class="feature-card"><i class="fas fa-chalkboard-user"></i><h4>Practical Learning</h4></div>
+      <div class="feature-card"><i class="fas fa-smile"></i><h4>Beginner Friendly</h4></div>
+      <div class="feature-card"><i class="fas fa-briefcase"></i><h4>Freelancing Support</h4></div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>© 2025 Online Bazaar BD - আপনার ক্যারিয়ার শুরু হোক আজই</p>
+    <p><i class="fas fa-phone-alt"></i> হটলাইন: 01877870942</p>
+  </div>
+</footer>
+
+<!-- WhatsApp Floating Button -->
+<a href="https://wa.me/8801877870942?text=আসসালামু আলাইকুম ভাই।
+
+আমি Online Bazaar BD-এর ৯৯ টাকার কোর্স প্যাকেজটি নিতে চাই।
+
+প্যাকেজে কী কী কোর্স আছে এবং পেমেন্ট করার পর কীভাবে কোর্সগুলো পাবো একটু জানাবেন?
+
+ধন্যবাদ।" target="_blank" class="whatsapp-float">
+  <i class="fab fa-whatsapp"></i> WhatsApp
+</a>
+
+<!-- Multi-step Modal -->
+<div id="purchaseModal" class="modal-overlay">
+  <div class="modal-content" id="modalDynamic">
+    <!-- Step 1: info -->
+    <div id="step1">
+      <h3><i class="fas fa-user-check"></i> আপনার তথ্য দিন</h3>
+      <input type="text" id="fullName" placeholder="পূর্ণ নাম" required>
+      <input type="email" id="emailAddress" placeholder="ইমেইল ঠিকানা" required>
+      <input type="tel" id="whatsappNumber" placeholder="হোয়াটসঅ্যাপ নম্বর" required>
+      <button id="nextStepBtn" class="btn-primary" style="width:100%">পরবর্তী <i class="fas fa-arrow-right"></i></button>
+    </div>
+    <div id="step2" style="display:none;">
+      <h3><i class="fas fa-credit-card"></i> পেমেন্ট ভেরিফিকেশন</h3>
+      <div class="payment-number">
+        <i class="fas fa-mobile-alt"></i> বিকাশ / নগদ: <strong>01933932475</strong><br>
+        <small>প্রথমে ৯৯ টাকা সেন্ডমানি করুন এবং সঠিক Transaction ID দিন</small>
+      </div>
+      <select id="paymentMethod">
+        <option value="bKash">bKash</option>
+        <option value="Nagad">Nagad</option>
+      </select>
+      <input type="text" id="transactionId" placeholder="Transaction ID (যেমন: 8H7g3K2pL)" required>
+      <button id="verifyPaymentBtn" class="btn-primary" style="width:100%">Verify Payment & Submit</button>
+      <button id="backStepBtn" style="background:none; border:none; color:#94a3b8; margin-top:12px; cursor:pointer;"><i class="fas fa-chevron-left"></i> পেছনে</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ---------- FIREBASE CONFIG (Replace with your own) ----------
+const firebaseConfig = {
+  apiKey: "AIzaSyDi1R_E662VnaSZwbTQCT_eYhmDVDOkL9M",
+  authDomain: "online-bazaar-bd.firebaseapp.com",
+  projectId: "online-bazaar-bd",
+  storageBucket: "online-bazaar-bd.firebasestorage.app",
+  messagingSenderId: "126666569068",
+  appId: "1:126666569068:web:ca14294e0d1b62c8472f49",
+  measurementId: "G-10VDRSBG1X"
+};
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  // ---------- Transaction ID Validation ----------
+  function isValidTransactionId(method, trxId) {
+    if (!trxId || trxId.trim() === "") return false;
+    const id = trxId.trim();
+    // bKash: সাধারণত 8-15 অক্ষরের আলফানিউমেরিক (বড় হাতের ছোট হাতের অক্ষর + সংখ্যা)
+    // Nagad: একই রকম ফরম্যাট, তবে সাধারণত 'NAGAD' দিয়ে শুরু হয় না; আমরা শুধু লেন্থ ও অক্ষর চেক করছি
+    // আরও রিয়েলিস্টিক: উভয়ই কমপক্ষে 6 অক্ষর, শুধু ইংরেজি অক্ষর ও সংখ্যা
+    const alphanumericRegex = /^[A-Za-z0-9]{6,20}$/;
+    if (!alphanumericRegex.test(id)) return false;
+    // অতিরিক্ত: নগদের জন্য বিশেষ কিছু নেই, তবে বিকাশের জন্য সাধারণত শুরুতে সংখ্যা থাকে। তবু সব ধরনের গ্রহণযোগ্য রাখলাম।
+    return true;
+  }
+
+  function showToast(msg, type = 'success') {
+    const toast = document.createElement('div');
+    toast.className = 'toast-custom';
+    toast.style.background = type === 'error' ? '#b91c1c' : '#0f3b2c';
+    toast.innerHTML = `<i class="fas fa-${type === 'error' ? 'exclamation-circle' : 'check-circle'}"></i> ${msg}`;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+  }
+
+  function runConfetti() {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti@1';
+    script.onload = () => canvasConfetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#3b82f6', '#f97316'] });
+    document.head.appendChild(script);
+    if (window.canvasConfetti) canvasConfetti({ particleCount: 150, spread: 70 });
+  }
+
+  // Course list
+  const coursesList = [
+    "Adobe Photoshop", "Adobe Illustrator", "HTML", "CSS", "JavaScript", "WordPress", "Flutter",
+    "Adobe Premiere Pro", "CapCut", "Spoken English", "Animation", "Digital Marketing", "Facebook Ads",
+    "SEO", "Freelancing", "YouTube Monetization", "Canva Design", "Logo Design", "UI/UX Design",
+    "Dropshipping", "E-Commerce", "আরও ৫৫+ প্রিমিয়াম কোর্স"
+  ];
+  const iconsMap = {
+    "Adobe Photoshop":"fa-image", "Adobe Illustrator":"fa-pen-fancy","HTML":"fa-code","CSS":"fa-css3-alt",
+    "JavaScript":"fa-js","WordPress":"fa-wordpress","Flutter":"fa-mobile-screen","Adobe Premiere Pro":"fa-film",
+    "CapCut":"fa-scissors","Spoken English":"fa-language","Animation":"fa-film","Digital Marketing":"fa-chart-line",
+    "Facebook Ads":"fa-facebook","SEO":"fa-magnifying-glass-chart","Freelancing":"fa-user-tie","YouTube Monetization":"fa-youtube",
+    "Canva Design":"fa-palette","Logo Design":"fa-crown","UI/UX Design":"fa-pen-ruler","Dropshipping":"fa-truck",
+    "E-Commerce":"fa-cart-shopping","আরও ৫৫+ প্রিমিয়াম কোর্স":"fa-gem"
+  };
+  const courseGrid = document.getElementById('courseGrid');
+  coursesList.forEach(c => {
+    let icon = iconsMap[c] || "fa-book-open";
+    let card = document.createElement('div');
+    card.className = 'course-card fade-up';
+    card.innerHTML = `<i class="fas ${icon}"></i><span>${c}</span>`;
+    courseGrid.appendChild(card);
+  });
+
+  // Intersection Observer for animation
+  const faders = document.querySelectorAll('.fade-up');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('show'); });
+  }, { threshold: 0.2 });
+  faders.forEach(el => observer.observe(el));
+
+  // modal logic
+  let modal = document.getElementById('purchaseModal');
+  let step1Div = document.getElementById('step1');
+  let step2Div = document.getElementById('step2');
+  let nameInput = document.getElementById('fullName');
+  let emailInput = document.getElementById('emailAddress');
+  let whatsappInput = document.getElementById('whatsappNumber');
+  let paymentMethodSel = document.getElementById('paymentMethod');
+  let transactionIdInput = document.getElementById('transactionId');
+
+  document.getElementById('buyNowBtn').onclick = () => {
+    modal.classList.add('active');
+    step1Div.style.display = 'block';
+    step2Div.style.display = 'none';
+    nameInput.value = ''; emailInput.value = ''; whatsappInput.value = '';
+    transactionIdInput.value = ''; paymentMethodSel.value = 'bKash';
+  };
+  document.getElementById('nextStepBtn').onclick = () => {
+    let name = nameInput.value.trim();
+    let email = emailInput.value.trim();
+    let whatsapp = whatsappInput.value.trim();
+    if(!name || !email || !whatsapp) { showToast("সব তথ্য পূরণ করুন", "error"); return; }
+    if(!email.includes('@')) { showToast("সঠিক ইমেইল দিন", "error"); return; }
+    if(whatsapp.length < 10) { showToast("সঠিক হোয়াটসঅ্যাপ নম্বর দিন", "error"); return; }
+    step1Div.style.display = 'none';
+    step2Div.style.display = 'block';
+  };
+  document.getElementById('backStepBtn').onclick = () => {
+    step1Div.style.display = 'block';
+    step2Div.style.display = 'none';
+  };
+
+  // Verify & save order with Transaction ID validation
+  document.getElementById('verifyPaymentBtn').onclick = async () => {
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    const whatsapp = whatsappInput.value.trim();
+    const paymentMethod = paymentMethodSel.value;
+    const transactionId = transactionIdInput.value.trim();
+
+    if (!transactionId) {
+      showToast("ট্রানজেকশন আইডি দিন", "error");
+      return;
+    }
+    // Validate transaction ID format
+    if (!isValidTransactionId(paymentMethod, transactionId)) {
+      showToast("ভুল ট্রানজেকশন আইডি ফরম্যাট! শুধু ইংরেজি অক্ষর ও সংখ্যা (৬-২০ অক্ষর) গ্রহণযোগ্য।", "error");
+      return;
+    }
+
+    const btn = document.getElementById('verifyPaymentBtn');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> যাচাই করা হচ্ছে...';
+    btn.disabled = true;
+    try {
+      await db.collection("orders").add({
+        name: name,
+        email: email,
+        whatsapp: whatsapp,
+        paymentMethod: paymentMethod,
+        transactionId: transactionId,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        amount: 99
+      });
+      await Swal.fire({
+        title: "সফল!",
+        text: "আপনার অর্ডার সফলভাবে গ্রহণ করা হয়েছে। Admin Verification এর পর কোর্স অ্যাক্সেস প্রদান করা হবে।",
+        icon: "success",
+        confirmButtonColor: "#3b82f6",
+        background: "#0f1a2f",
+        color: "#fff"
+      });
+      runConfetti();
+      modal.classList.remove('active');
+      showToast("অর্ডার সংরক্ষিত! প্রশাসন শীঘ্রই যাচাই করবেন।");
+    } catch(err) {
+      console.error(err);
+      showToast("সার্ভার ত্রুটি, পরে আবার চেষ্টা করুন", "error");
+    } finally {
+      btn.innerHTML = originalText;
+      btn.disabled = false;
+    }
+  };
+
+  // preloader removal
+  window.addEventListener('load', () => {
+    setTimeout(() => { document.getElementById('loader').style.opacity = '0'; setTimeout(()=>document.getElementById('loader').style.display='none',500); }, 600);
+    modal.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('active'); });
+    faders.forEach(el => { if(el.getBoundingClientRect().top < window.innerHeight-100) el.classList.add('show'); });
+  });
+</script>
+</body>
+  </html>
