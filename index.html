@@ -5,6 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Online Bazaar BD | ৫৫+ প্রিমিয়াম কোর্স মাত্র ৯৯ টাকা</title>
   <!-- Google Fonts & Font Awesome -->
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '3986387141663432');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=3986387141663432&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- SweetAlert2 -->
@@ -417,6 +437,13 @@ const firebaseConfig = {
   let transactionIdInput = document.getElementById('transactionId');
 
   document.getElementById('buyNowBtn').onclick = () => {
+
+fbq('track', 'InitiateCheckout', {
+      value: 99,
+      currency: 'BDT'
+    });
+
+
     modal.classList.add('active');
     step1Div.style.display = 'block';
     step2Div.style.display = 'none';
@@ -470,6 +497,12 @@ const firebaseConfig = {
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         amount: 99
       });
+fbq('track', 'Purchase', {
+        value: 99,
+        currency: 'BDT'
+      });
+
+
       await Swal.fire({
         title: "সফল!",
         text: "আপনার অর্ডার সফলভাবে গ্রহণ করা হয়েছে। Admin Verification এর পর কোর্স অ্যাক্সেস প্রদান করা হবে।",
@@ -498,4 +531,4 @@ const firebaseConfig = {
   });
 </script>
 </body>
-  </html>
+                                                                                    </html>
