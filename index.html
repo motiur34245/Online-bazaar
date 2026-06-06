@@ -5,26 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Online Bazaar BD | ৫৫+ প্রিমিয়াম কোর্স মাত্র ৯৯ টাকা</title>
   <!-- Google Fonts & Font Awesome -->
-
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '3986387141663432');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=3986387141663432&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
-
-
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- SweetAlert2 -->
@@ -32,6 +12,25 @@ src="https://www.facebook.com/tr?id=3986387141663432&ev=PageView&noscript=1"
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  
+  <!-- Meta Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '3986387141663432');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=3986387141663432&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
+
   <style>
     * {
       margin: 0;
@@ -156,62 +155,218 @@ src="https://www.facebook.com/tr?id=3986387141663432&ev=PageView&noscript=1"
       padding: 20px;
       text-align: center;
     }
-    /* modal styles */
+
+    /* ========== NEW PREMIUM MODAL DESIGN ========== */
     .modal-overlay {
       position: fixed;
       top:0;left:0;width:100%;height:100%;
-      background: rgba(0,0,0,0.8);
-      backdrop-filter: blur(10px);
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(12px);
       z-index: 1000;
       display: flex;
       justify-content: center;
       align-items: center;
       visibility: hidden;
       opacity: 0;
-      transition: 0.2s;
+      transition: 0.25s ease;
     }
     .modal-overlay.active {
       visibility: visible;
       opacity: 1;
     }
-    .modal-content {
-      background: rgba(15, 25, 45, 0.95);
-      backdrop-filter: blur(20px);
+    .payment-modal-card {
+      background: #ffffff;
       border-radius: 40px;
-      max-width: 500px;
-      width: 90%;
-      padding: 32px;
-      border: 1px solid #3b82f6;
+      max-width: 540px;
+      width: 92%;
+      padding: 0;
+      box-shadow: 0 30px 50px rgba(0,0,0,0.4);
+      overflow: hidden;
+      transition: transform 0.2s;
+      color: #0f172a;
     }
-    input, select {
-      width: 100%;
-      padding: 14px 16px;
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(59,130,246,0.4);
-      border-radius: 28px;
+    .modal-header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      padding: 24px 28px;
+      text-align: center;
       color: white;
-      margin: 12px 0;
-      outline: none;
     }
-    input:focus { border-color: #3b82f6; }
-    .payment-number {
-      background: #1e293b;
-      padding: 12px;
+    .modal-header h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin: 0 0 6px;
+    }
+    .modal-header p {
+      opacity: 0.8;
+      font-size: 0.9rem;
+    }
+    .modal-body {
+      padding: 28px 28px 32px;
+    }
+    .amount-chip {
+      background: #f1f5f9;
+      border-radius: 100px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 20px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 24px;
+    }
+    .amount-chip i {
+      color: #e2136e;
+    }
+    .price-big {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #e2136e;
+      margin-left: auto;
+    }
+    .payment-step-item {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 20px;
+      align-items: flex-start;
+    }
+    .step-number {
+      width: 28px;
+      height: 28px;
+      background: #e2136e10;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #e2136e;
+      border: 1px solid #e2136e30;
+    }
+    .step-text {
+      flex: 1;
+      font-weight: 500;
+      color: #1e293b;
+    }
+    .copy-number-area {
+      background: #f8fafc;
+      border-radius: 80px;
+      padding: 10px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 20px 0;
+      border: 1px solid #e2e8f0;
+    }
+    .copy-number {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: #0f172a;
+    }
+    .btn-copy {
+      background: #e2136e;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 40px;
+      color: white;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn-copy:hover {
+      background: #ba135d;
+      transform: scale(0.97);
+    }
+    .txn-hint {
+      background: #fef9e6;
       border-radius: 20px;
+      padding: 12px 16px;
+      font-size: 0.8rem;
+      color: #b45309;
+      margin-bottom: 20px;
+      border-left: 4px solid #e2136e;
+    }
+    .input-modern {
+      width: 100%;
+      padding: 14px 18px;
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 28px;
+      font-size: 0.95rem;
+      margin: 12px 0 8px;
+      transition: 0.2s;
+      color: #0f172a;
+    }
+    .input-modern:focus {
+      border-color: #e2136e;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(226,19,110,0.1);
+    }
+    select.input-modern {
+      cursor: pointer;
+    }
+    .btn-verify {
+      width: 100%;
+      background: linear-gradient(95deg, #e2136e, #f43f5e);
+      border: none;
+      padding: 16px;
+      border-radius: 60px;
+      font-weight: 800;
+      font-size: 1rem;
+      color: white;
+      margin-top: 20px;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 8px 20px rgba(226,19,110,0.3);
+    }
+    .btn-verify:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(226,19,110,0.4);
+    }
+    .back-to-info {
       text-align: center;
-      margin: 16px 0;
+      margin-top: 20px;
+      background: none;
+      border: none;
+      color: #3b82f6;
+      font-weight: 500;
+      cursor: pointer;
+      width: 100%;
+      font-size: 0.85rem;
+    }
+    .divider {
+      height: 1px;
+      background: #eef2ff;
+      margin: 20px 0;
+    }
+    /* step 1 styling */
+    .info-step-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .whatsapp-float {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background-color: #25D366;
+      color: white;
+      border-radius: 50px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
       font-weight: bold;
+      z-index: 99;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      text-decoration: none;
+      transition: 0.2s;
     }
-    footer {
-      background: rgba(0,0,0,0.5);
-      margin-top: 70px;
-      padding: 40px 0;
-      text-align: center;
-    }
-    @media (max-width: 640px) {
-      .course-grid { grid-template-columns: repeat(2,1fr); }
-      .btn-primary { padding: 10px 22px; }
-    }
+    .whatsapp-float i { font-size: 1.8rem; }
+    .whatsapp-float:hover { transform: scale(1.05); background-color: #128C7E; }
     .toast-custom {
       position: fixed;
       bottom: 20px;
@@ -232,34 +387,18 @@ src="https://www.facebook.com/tr?id=3986387141663432&ev=PageView&noscript=1"
       opacity: 1;
       transform: translateY(0);
     }
-    /* WhatsApp floating button */
-    .whatsapp-float {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      background-color: #25D366;
-      color: white;
-      border-radius: 50px;
-      padding: 14px 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: bold;
-      z-index: 99;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-      text-decoration: none;
-      transition: 0.2s;
-    }
-    .whatsapp-float i {
-      font-size: 1.8rem;
-    }
-    .whatsapp-float:hover {
-      transform: scale(1.05);
-      background-color: #128C7E;
+    footer {
+      background: rgba(0,0,0,0.5);
+      margin-top: 70px;
+      padding: 40px 0;
+      text-align: center;
     }
     @media (max-width: 640px) {
+      .course-grid { grid-template-columns: repeat(2,1fr); }
+      .btn-primary { padding: 10px 22px; }
       .whatsapp-float { padding: 10px 16px; font-size: 0.9rem; }
-      .whatsapp-float i { font-size: 1.4rem; }
+      .modal-body { padding: 22px; }
+      .copy-number { font-size: 1.1rem; }
     }
   </style>
 </head>
@@ -279,7 +418,6 @@ src="https://www.facebook.com/tr?id=3986387141663432&ev=PageView&noscript=1"
 
 <main>
   <div class="container">
-    <!-- Hero Section -->
     <div class="glass-card" style="padding: 48px 32px; text-align: center; margin: 48px 0;">
       <i class="fas fa-fire" style="font-size: 48px; color: #f97316;"></i>
       <h1 style="font-size: 3rem; font-weight: 800; margin: 16px 0;">🔥 মাত্র ৯৯ টাকা 🔥</h1>
@@ -287,11 +425,9 @@ src="https://www.facebook.com/tr?id=3986387141663432&ev=PageView&noscript=1"
       <button id="buyNowBtn" class="btn-primary" style="margin-top: 32px;"><i class="fas fa-shopping-cart"></i> এখনি কিনুন - ৯৯ টাকা</button>
     </div>
 
-    <!-- Course Section -->
     <h2 style="font-size: 2rem; margin: 30px 0 10px;"><i class="fas fa-graduation-cap"></i> আমাদের কোর্স সমূহ</h2>
     <div class="course-grid" id="courseGrid"></div>
 
-    <!-- Features -->
     <h2 style="font-size: 2rem; margin: 30px 0 10px;"><i class="fas fa-star"></i> বিশেষ সুবিধা</h2>
     <div class="features-grid">
       <div class="feature-card"><i class="fas fa-infinity"></i><h4>Lifetime Access</h4></div>
@@ -311,7 +447,6 @@ src="https://www.facebook.com/tr?id=3986387141663432&ev=PageView&noscript=1"
   </div>
 </footer>
 
-<!-- WhatsApp Floating Button -->
 <a href="https://wa.me/8801877870942?text=আসসালামু আলাইকুম ভাই।
 
 আমি Online Bazaar BD-এর ৯৯ টাকার কোর্স প্যাকেজটি নিতে চাই।
@@ -322,60 +457,97 @@ src="https://www.facebook.com/tr?id=3986387141663432&ev=PageView&noscript=1"
   <i class="fab fa-whatsapp"></i> WhatsApp
 </a>
 
-<!-- Multi-step Modal -->
+<!-- Modal with premium design (step1 + step2) -->
 <div id="purchaseModal" class="modal-overlay">
-  <div class="modal-content" id="modalDynamic">
-    <!-- Step 1: info -->
-    <div id="step1">
-      <h3><i class="fas fa-user-check"></i> আপনার তথ্য দিন</h3>
-      <input type="text" id="fullName" placeholder="পূর্ণ নাম" required>
-      <input type="email" id="emailAddress" placeholder="ইমেইল ঠিকানা" required>
-      <input type="tel" id="whatsappNumber" placeholder="হোয়াটসঅ্যাপ নম্বর" required>
-      <button id="nextStepBtn" class="btn-primary" style="width:100%">পরবর্তী <i class="fas fa-arrow-right"></i></button>
+  <div class="payment-modal-card">
+    <div class="modal-header">
+      <h2><i class="fas fa-crown"></i> Premium Access</h2>
+      <p>৫৫+ কোর্স আনলক করুন মাত্র ৯৯ টাকায়</p>
     </div>
-    <div id="step2" style="display:none;">
-      <h3><i class="fas fa-credit-card"></i> পেমেন্ট ভেরিফিকেশন</h3>
-      <div class="payment-number">
-        <i class="fas fa-mobile-alt"></i> বিকাশ / নগদ: <strong>01933932475</strong><br>
-        <small>প্রথমে ৯৯ টাকা সেন্ডমানি করুন এবং সঠিক Transaction ID দিন</small>
+    <div class="modal-body">
+      <!-- Step 1: Information -->
+      <div id="step1">
+        <div class="info-step-title"><i class="fas fa-user-edit"></i> আপনার তথ্য দিন</div>
+        <input type="text" id="fullName" class="input-modern" placeholder="পূর্ণ নাম" required>
+        <input type="email" id="emailAddress" class="input-modern" placeholder="ইমেইল ঠিকানা" required>
+        <input type="tel" id="whatsappNumber" class="input-modern" placeholder="হোয়াটসঅ্যাপ নম্বর" required>
+        <button id="nextStepBtn" class="btn-verify" style="background: linear-gradient(95deg,#3b82f6,#8b5cf6); box-shadow:0 6px 14px rgba(59,130,246,0.3);">পরবর্তী <i class="fas fa-arrow-right"></i></button>
       </div>
-      <select id="paymentMethod">
-        <option value="bKash">bKash</option>
-        <option value="Nagad">Nagad</option>
-      </select>
-      <input type="text" id="transactionId" placeholder="Transaction ID (যেমন: 8H7g3K2pL)" required>
-      <button id="verifyPaymentBtn" class="btn-primary" style="width:100%">Verify Payment & Submit</button>
-      <button id="backStepBtn" style="background:none; border:none; color:#94a3b8; margin-top:12px; cursor:pointer;"><i class="fas fa-chevron-left"></i> পেছনে</button>
+
+      <!-- Step 2: Payment Verification (Premium clean design) -->
+      <div id="step2" style="display:none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <div class="amount-chip"><i class="fas fa-tag"></i> প্যাকেজ মূল্য</div>
+          <div class="price-big">৳৯৯</div>
+        </div>
+
+        <div class="payment-step-item">
+          <div class="step-number">১</div>
+          <div class="step-text">bKash অথবা Nagad অ্যাপ খুলুন</div>
+        </div>
+        <div class="payment-step-item">
+          <div class="step-number">২</div>
+          <div class="step-text">Send Money করুন নিচের নাম্বারে</div>
+        </div>
+
+        <div class="copy-number-area">
+          <span class="copy-number">01933932475</span>
+          <button id="copyPaymentNumberBtn" class="btn-copy"><i class="fa-regular fa-copy"></i> Copy</button>
+        </div>
+
+        <div class="payment-step-item">
+          <div class="step-number">৩</div>
+          <div class="step-text">Amount: <strong>৯৯ টাকা</strong> সঠিকভাবে দিন</div>
+        </div>
+        <div class="payment-step-item">
+          <div class="step-number">৪</div>
+          <div class="step-text">পেমেন্ট কমপ্লিট হলে নিচে Transaction ID দিন</div>
+        </div>
+
+        <!-- Transaction ID hint with example style as requested -->
+        <div class="txn-hint">
+          <i class="fas fa-info-circle"></i> <strong>সঠিক Transaction ID ফরম্যাট:</strong> যেমন <code>A7F3K9P2Q1</code> , <code>B4M8X2R7T5</code> (ইংরেজি অক্ষর ও সংখ্যা, ৬-২০ অক্ষর)
+        </div>
+
+        <select id="paymentMethod" class="input-modern">
+          <option value="bKash">bKash (বিকাশ)</option>
+          <option value="Nagad">Nagad (নগদ)</option>
+        </select>
+        
+        <input type="text" id="transactionId" class="input-modern" placeholder="Transaction ID (যেমন: A7F3K9P2Q1)" autocomplete="off">
+        
+        <button id="verifyPaymentBtn" class="btn-verify"><i class="fas fa-shield-alt"></i> VERIFY & SUBMIT</button>
+        
+        <button id="backStepBtn" class="back-to-info"><i class="fas fa-chevron-left"></i> তথ্য পরিবর্তন করতে এখানে ক্লিক করুন</button>
+        <div class="divider"></div>
+        <div style="font-size: 0.75rem; text-align: center; color: #64748b;">
+          <i class="fas fa-lock"></i> আপনার তথ্য নিরাপদে সংরক্ষিত হবে
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
-  // ---------- FIREBASE CONFIG (Replace with your own) ----------
-const firebaseConfig = {
-  apiKey: "AIzaSyDi1R_E662VnaSZwbTQCT_eYhmDVDOkL9M",
-  authDomain: "online-bazaar-bd.firebaseapp.com",
-  projectId: "online-bazaar-bd",
-  storageBucket: "online-bazaar-bd.firebasestorage.app",
-  messagingSenderId: "126666569068",
-  appId: "1:126666569068:web:ca14294e0d1b62c8472f49",
-  measurementId: "G-10VDRSBG1X"
-};
-  // Initialize Firebase
+  // ---------- FIREBASE CONFIG ----------
+  const firebaseConfig = {
+    apiKey: "AIzaSyDi1R_E662VnaSZwbTQCT_eYhmDVDOkL9M",
+    authDomain: "online-bazaar-bd.firebaseapp.com",
+    projectId: "online-bazaar-bd",
+    storageBucket: "online-bazaar-bd.firebasestorage.app",
+    messagingSenderId: "126666569068",
+    appId: "1:126666569068:web:ca14294e0d1b62c8472f49",
+    measurementId: "G-10VDRSBG1X"
+  };
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
 
-  // ---------- Transaction ID Validation ----------
-  function isValidTransactionId(method, trxId) {
+  // Validation: Transaction ID accepts alphanumeric 6-20 chars (matches examples like A7F3K9P2Q1)
+  function isValidTransactionId(trxId) {
     if (!trxId || trxId.trim() === "") return false;
     const id = trxId.trim();
-    // bKash: সাধারণত 8-15 অক্ষরের আলফানিউমেরিক (বড় হাতের ছোট হাতের অক্ষর + সংখ্যা)
-    // Nagad: একই রকম ফরম্যাট, তবে সাধারণত 'NAGAD' দিয়ে শুরু হয় না; আমরা শুধু লেন্থ ও অক্ষর চেক করছি
-    // আরও রিয়েলিস্টিক: উভয়ই কমপক্ষে 6 অক্ষর, শুধু ইংরেজি অক্ষর ও সংখ্যা
-    const alphanumericRegex = /^[A-Za-z0-9]{6,20}$/;
-    if (!alphanumericRegex.test(id)) return false;
-    // অতিরিক্ত: নগদের জন্য বিশেষ কিছু নেই, তবে বিকাশের জন্য সাধারণত শুরুতে সংখ্যা থাকে। তবু সব ধরনের গ্রহণযোগ্য রাখলাম।
-    return true;
+    const alphanumericRegex = /^[A-Za-z0-9]{10}$/;
+    return alphanumericRegex.test(id);
   }
 
   function showToast(msg, type = 'success') {
@@ -390,12 +562,12 @@ const firebaseConfig = {
   function runConfetti() {
     const script = document.createElement('script');
     script.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti@1';
-    script.onload = () => canvasConfetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#3b82f6', '#f97316'] });
+    script.onload = () => canvasConfetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#e2136e', '#f97316'] });
     document.head.appendChild(script);
     if (window.canvasConfetti) canvasConfetti({ particleCount: 150, spread: 70 });
   }
 
-  // Course list
+  // Course list dynamic
   const coursesList = [
     "Adobe Photoshop", "Adobe Illustrator", "HTML", "CSS", "JavaScript", "WordPress", "Flutter",
     "Adobe Premiere Pro", "CapCut", "Spoken English", "Animation", "Digital Marketing", "Facebook Ads",
@@ -419,30 +591,34 @@ const firebaseConfig = {
     courseGrid.appendChild(card);
   });
 
-  // Intersection Observer for animation
+  // Intersection Observer
   const faders = document.querySelectorAll('.fade-up');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('show'); });
   }, { threshold: 0.2 });
   faders.forEach(el => observer.observe(el));
 
-  // modal logic
-  let modal = document.getElementById('purchaseModal');
-  let step1Div = document.getElementById('step1');
-  let step2Div = document.getElementById('step2');
-  let nameInput = document.getElementById('fullName');
-  let emailInput = document.getElementById('emailAddress');
-  let whatsappInput = document.getElementById('whatsappNumber');
-  let paymentMethodSel = document.getElementById('paymentMethod');
-  let transactionIdInput = document.getElementById('transactionId');
+  // ---------- MODAL LOGIC ----------
+  const modal = document.getElementById('purchaseModal');
+  const step1Div = document.getElementById('step1');
+  const step2Div = document.getElementById('step2');
+  const nameInput = document.getElementById('fullName');
+  const emailInput = document.getElementById('emailAddress');
+  const whatsappInput = document.getElementById('whatsappNumber');
+  const paymentMethodSel = document.getElementById('paymentMethod');
+  const transactionIdInput = document.getElementById('transactionId');
 
   document.getElementById('buyNowBtn').onclick = () => {
     modal.classList.add('active');
     step1Div.style.display = 'block';
     step2Div.style.display = 'none';
-    nameInput.value = ''; emailInput.value = ''; whatsappInput.value = '';
-    transactionIdInput.value = ''; paymentMethodSel.value = 'bKash';
+    nameInput.value = '';
+    emailInput.value = '';
+    whatsappInput.value = '';
+    transactionIdInput.value = '';
+    paymentMethodSel.value = 'bKash';
   };
+
   document.getElementById('nextStepBtn').onclick = () => {
     let name = nameInput.value.trim();
     let email = emailInput.value.trim();
@@ -453,12 +629,23 @@ const firebaseConfig = {
     step1Div.style.display = 'none';
     step2Div.style.display = 'block';
   };
+
   document.getElementById('backStepBtn').onclick = () => {
     step1Div.style.display = 'block';
     step2Div.style.display = 'none';
   };
 
-  // Verify & save order with Transaction ID validation
+  // Copy Number
+  const copyBtn = document.getElementById('copyPaymentNumberBtn');
+  if(copyBtn) {
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText("01933932475").then(() => {
+        showToast("✅ নাম্বার কপি হয়েছে: 01933932475", "success");
+      }).catch(() => showToast("কপি করতে ব্যর্থ", "error"));
+    });
+  }
+
+  // Verify and save
   document.getElementById('verifyPaymentBtn').onclick = async () => {
     const name = nameInput.value.trim();
     const email = emailInput.value.trim();
@@ -470,9 +657,8 @@ const firebaseConfig = {
       showToast("ট্রানজেকশন আইডি দিন", "error");
       return;
     }
-    // Validate transaction ID format
-    if (!isValidTransactionId(paymentMethod, transactionId)) {
-      showToast("ভুল ট্রানজেকশন আইডি ফরম্যাট! শুধু ইংরেজি অক্ষর ও সংখ্যা (৬-২০ অক্ষর) গ্রহণযোগ্য।", "error");
+    if (!isValidTransactionId(transactionId)) {
+      showToast("ভুল ট্রানজেকশন আইডি ফরম্যাট! অনুগ্রহ করে পেমেন্ট করে সঠিক ট্রান্সজেকশন আইডি দিন।", "error");
       return;
     }
 
@@ -491,25 +677,22 @@ const firebaseConfig = {
         amount: 99
       });
 
-
-fbq('track', 'Purchase', {
-  value: 99,
-  currency: 'BDT'
-});
-
-
+      fbq('track', 'Purchase', {
+        value: 99,
+        currency: 'BDT'
+      });
 
       await Swal.fire({
-        title: "সফল!",
-        text: "আপনার অর্ডার সফলভাবে গ্রহণ করা হয়েছে। Admin Verification এর পর কোর্স অ্যাক্সেস প্রদান করা হবে।",
+        title: "✅ অর্ডার সফল!",
+        text: "আপনার অর্ডার সংরক্ষিত হয়েছে। প্রশাসন যাচাই করে দ্রুত কোর্স অ্যাক্সেস দিয়ে দিবেন।",
         icon: "success",
-        confirmButtonColor: "#3b82f6",
-        background: "#0f1a2f",
-        color: "#fff"
+        confirmButtonColor: "#e2136e",
+        background: "#ffffff",
+        color: "#0f172a"
       });
       runConfetti();
       modal.classList.remove('active');
-      showToast("অর্ডার সংরক্ষিত! প্রশাসন শীঘ্রই যাচাই করবেন।");
+      showToast("অর্ডার জমা হয়েছে! ধন্যবাদ", "success");
     } catch(err) {
       console.error(err);
       showToast("সার্ভার ত্রুটি, পরে আবার চেষ্টা করুন", "error");
@@ -519,10 +702,13 @@ fbq('track', 'Purchase', {
     }
   };
 
-  // preloader removal
+  modal.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('active'); });
+
   window.addEventListener('load', () => {
-    setTimeout(() => { document.getElementById('loader').style.opacity = '0'; setTimeout(()=>document.getElementById('loader').style.display='none',500); }, 600);
-    modal.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('active'); });
+    setTimeout(() => { 
+      document.getElementById('loader').style.opacity = '0'; 
+      setTimeout(()=>document.getElementById('loader').style.display='none',500); 
+    }, 600);
     faders.forEach(el => { if(el.getBoundingClientRect().top < window.innerHeight-100) el.classList.add('show'); });
   });
 </script>
