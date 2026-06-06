@@ -437,13 +437,6 @@ const firebaseConfig = {
   let transactionIdInput = document.getElementById('transactionId');
 
   document.getElementById('buyNowBtn').onclick = () => {
-
-fbq('track', 'InitiateCheckout', {
-      value: 99,
-      currency: 'BDT'
-    });
-
-
     modal.classList.add('active');
     step1Div.style.display = 'block';
     step2Div.style.display = 'none';
@@ -497,10 +490,13 @@ fbq('track', 'InitiateCheckout', {
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         amount: 99
       });
+
+
 fbq('track', 'Purchase', {
-        value: 99,
-        currency: 'BDT'
-      });
+  value: 99,
+  currency: 'BDT'
+});
+
 
 
       await Swal.fire({
@@ -531,4 +527,4 @@ fbq('track', 'Purchase', {
   });
 </script>
 </body>
-                                                                                    </html>
+  </html>
